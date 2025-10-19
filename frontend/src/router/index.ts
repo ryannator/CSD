@@ -2,9 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
+import SignupView from '@/views/SignupView.vue'
 import TariffCalculator from '@/views/TariffCalculator.vue'
 import UserDashboard from '@/views/UserDashboard.vue'
 import AdminDashboard from '@/views/AdminDashboard.vue'
+import UserManagementView from '@/views/UserManagementView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import CountriesProducts from '@/views/CountriesProducts.vue'
 import { getToken } from '@/lib/token';
 import { getRolesFromToken } from '@/lib/jwt.ts';
@@ -24,6 +27,12 @@ const router = createRouter({
       meta: { public: true, guestOnly: true, hideSidebar: true },
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: SignupView,
+      meta: { public: true, guestOnly: true, hideSidebar: true },
+    },
+    {
       path: '/calculator',
       name: 'calculator',
       component: TariffCalculator,
@@ -38,6 +47,17 @@ const router = createRouter({
       name: 'admin-dashboard',
       component: AdminDashboard,
       meta: { requiresAdmin: true }
+    },
+    {
+      path: '/user-management',
+      name: 'user-management',
+      component: UserManagementView,
+      meta: { requiresAdmin: true }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
     },
     {
       path: '/countries-products',

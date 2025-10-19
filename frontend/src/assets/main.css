@@ -8,6 +8,15 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 /* grid-template-columns: 1fr 1fr; contridicts with the page setting, will allow only one col each */
@@ -141,5 +150,20 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Ensure no horizontal scrolling */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Responsive table handling */
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
+
+  /* Ensure proper flex behavior */
+  .flex {
+    min-width: 0;
   }
 }

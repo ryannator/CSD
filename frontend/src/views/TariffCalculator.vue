@@ -76,7 +76,7 @@
             <div class="space-y-3 text-sm">
               <div class="flex justify-between">
                 <span class="font-medium">Purchase Price:</span>
-                <span>${{ parseFloat(simpleCalc.productValue || '0').toFixed(2) }} USD</span>
+                <span>{{ formatCurrency(simpleCalcResult.purchasePrice, simpleCalc.currency) }}</span>
               </div>
               <div class="flex justify-between">
                 <span class="font-medium">Applied Tariff:</span>
@@ -392,11 +392,12 @@ const simpleCalc = ref({
   tariffExpirationDate: ''
 })
 
-const availableCountries = ref<any[]>([])
+const availableCountries = ref<{ countryCode: string; countryName: string }[]>([])
 const simpleCalcResult = ref<{
   tariffRate: number
   tariffAmount: number
   totalPrice: number
+  purchasePrice: number
 } | null>(null)
 
 // Map of latest calculation by HTS for quick lookup in search results
@@ -620,7 +621,8 @@ function getCardRightLabel(product: TariffProduct): string {
 function calculateSimpleTariff() {
   if (!simpleCalc.value.originCountry || !simpleCalc.value.destinationCountry || !simpleCalc.value.productValue || !simpleCalc.value.htsCode) return
 
-  const price = parseFloat(simpleCalc.value.productValue)
+  const unitPrice = parseFloat(simpleCalc.value.productValue)
+  const quantity = parseInt(simpleCalc.value.quantity) || 1
   let tariffRate = 0
 
   // Default rates based on country
@@ -644,13 +646,19 @@ function calculateSimpleTariff() {
   }
   tariffRate = rates[simpleCalc.value.originCountry] || 5 // Default 5% for other countries
 
-  // Calculate tariff amount in USD (since purchase price is in USD)
-  const tariffAmountUSD = (price * tariffRate) / 100
-  const totalPriceUSD = price + tariffAmountUSD
+  // Calculate total purchase price (unit price × quantity) in USD
+  const totalPurchasePriceUSD = unitPrice * quantity
+
+  // Calculate total tariff amount (total purchase price × tariff rate) in USD
+  const totalTariffAmountUSD = (totalPurchasePriceUSD * tariffRate) / 100
+
+  // Calculate total import price (total purchase price + total tariff amount) in USD
+  const totalImportPriceUSD = totalPurchasePriceUSD + totalTariffAmountUSD
 
   // Convert to selected currency if not USD
-  let tariffAmount = tariffAmountUSD
-  let totalPrice = totalPriceUSD
+  let totalPurchasePrice = totalPurchasePriceUSD
+  let totalTariffAmount = totalTariffAmountUSD
+  let totalImportPrice = totalImportPriceUSD
 
   if (simpleCalc.value.currency !== 'USD') {
     // Simple conversion rates (in a real app, you'd fetch live rates)
@@ -664,14 +672,16 @@ function calculateSimpleTariff() {
     }
 
     const rate = conversionRates[simpleCalc.value.currency] || 1
-    tariffAmount = tariffAmountUSD * rate
-    totalPrice = totalPriceUSD * rate
+    totalPurchasePrice = totalPurchasePriceUSD * rate
+    totalTariffAmount = totalTariffAmountUSD * rate
+    totalImportPrice = totalImportPriceUSD * rate
   }
 
   simpleCalcResult.value = {
     tariffRate,
-    tariffAmount,
-    totalPrice
+    tariffAmount: totalTariffAmount,
+    totalPrice: totalImportPrice,
+    purchasePrice: totalPurchasePrice
   }
 
   // Save calculation to database

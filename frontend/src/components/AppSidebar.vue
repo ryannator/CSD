@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Calculator, Home, Shield, Users, BarChart3, Globe, LogOut, LogIn } from "lucide-vue-next"
+import { Calculator, Home, Shield, Users, BarChart3, Globe, LogOut, LogIn, UserCog, Settings } from "lucide-vue-next"
 import { useAuth } from '../composables/useAuth'
 import {
   Sidebar,
@@ -39,6 +39,13 @@ const items = [
     title: "Admin Dashboard",
     url: "/admin-dashboard",
     icon: Shield,
+    requiresAuth: true,
+    adminOnly: true
+  },
+  {
+    title: "User Management",
+    url: "/user-management",
+    icon: UserCog,
     requiresAuth: true,
     adminOnly: true
   },

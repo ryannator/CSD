@@ -2,10 +2,9 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 interface User {
+  username: string
   email: string
   role: 'admin' | 'user'
-  firstName: string
-  lastName: string
   isAuthenticated: boolean
   loginTime: string
   provider?: string
@@ -58,19 +57,14 @@ export function useAuth() {
     return user.value?.role === 'user'
   })
 
-  const fullName = computed(() => {
-    if (!user.value) return ''
-    return `${user.value.firstName} ${user.value.lastName}`.trim()
-  })
-
-  const requiresAuth = (to: any) => {
+  const requiresAuth = (to: unknown) => {
     const publicRoutes = ['/login', '/', '/about']
-    return !publicRoutes.includes(to.path)
+    return !publicRoutes.includes((to as any).path)
   }
 
-  const requiresAdmin = (to: any) => {
+  const requiresAdmin = (to: unknown) => {
     const adminRoutes = ['/admin-dashboard']
-    return adminRoutes.includes(to.path)
+    return adminRoutes.includes((to as any).path)
   }
 
   if (user.value === null) {
@@ -83,7 +77,6 @@ export function useAuth() {
     isAuthenticated,
     isAdmin,
     isUser,
-    fullName,
     logout,
     clearAuth,
     requiresAuth,

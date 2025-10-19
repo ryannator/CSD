@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar.vue";
+import AppHeader from "@/components/AppHeader.vue";
 
 const route = useRoute()
+
 const hideSidebar = computed(() =>
   route.matched.some(r => r.meta?.hideSidebar)
 )
@@ -12,19 +14,23 @@ const hideSidebar = computed(() =>
 
 <template>
   <SidebarProvider>
-    <!-- sidebar -->
-    <AppSidebar v-if="!hideSidebar" />
+    <div class="flex min-h-screen w-full">
+      <!-- Sidebar -->
+      <AppSidebar v-if="!hideSidebar" />
 
-    <!-- Main content area -->
-    <main :class="['flex-1', hideSidebar ? 'p-0' : 'p-6']">
-      <!-- button to toggle sidebar-->
-      <SidebarTrigger v-if="!hideSidebar" />
+      <!-- Main content area -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <!-- Header with profile icon -->
+        <AppHeader v-if="!hideSidebar" />
 
-      <!-- where all routed pages will render-->
-      <router-view />
+        <!-- Main content where all routed pages will render -->
+        <main class="flex-1 overflow-x-hidden">
+          <router-view />
+        </main>
 
-      <!-- keep support for default slot content-->
-      <slot />
-    </main>
+        <!-- keep support for default slot content -->
+        <slot />
+      </div>
+    </div>
   </SidebarProvider>
 </template>
