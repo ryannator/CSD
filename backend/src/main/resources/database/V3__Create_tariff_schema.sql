@@ -202,7 +202,7 @@ COMMENT ON COLUMN tariff.products.wto_binding_code IS 'WTO binding status (B=Bou
 
 COMMENT ON COLUMN tariff.mfn_tariff_rates.mfn_ad_val_rate IS 'Ad valorem rate as decimal (0.05 = 5%)';
 COMMENT ON COLUMN tariff.mfn_tariff_rates.mfn_specific_rate IS 'Specific rate per unit';
-COMMENT ON COLUMN tariff.agreement_tariff_rates.ad_val_rate IS 'Ad valorem rate as decimal (0.05 = 5%)';
+COMMENT ON COLUMN tariff.agreement_tariff_rates.ad_valorem_rate IS 'Ad valorem rate as decimal (0.05 = 5%)';
 COMMENT ON COLUMN tariff.agreement_tariff_rates.specific_rate IS 'Specific rate per unit';
 
 COMMENT ON COLUMN tariff.agreement_tariff_rates.text_rate IS 'Text description of the tariff rate';

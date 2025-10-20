@@ -148,21 +148,13 @@
             />
           </div>
 
-          <div>
+          <div v-if="!editingUser">
             <label class="block text-sm font-medium text-gray-700">Email</label>
             <input
-              v-if="!editingUser"
               v-model="userForm.email"
               type="email"
               required
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-            <input
-              v-else
-              :value="userForm.email"
-              type="email"
-              readonly
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 text-gray-500 cursor-not-allowed"
             />
           </div>
 
