@@ -116,8 +116,7 @@
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">{{ calculation.currency }}</td>
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm font-medium text-green-600">${{ calculation.totalTariffAmount.toFixed(2) }}</td>
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
-                  <button class="text-blue-600 hover:text-blue-900 mr-2 md:mr-3">View</button>
-                  <button class="text-green-600 hover:text-green-900">Recalculate</button>
+                  <button class="text-blue-600 hover:text-blue-900">View</button>
                 </td>
               </tr>
             </tbody>
@@ -163,8 +162,7 @@
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">{{ calculation.currency }}</td>
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm font-medium text-green-600">${{ calculation.totalTariffAmount.toFixed(2) }}</td>
                 <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
-                  <button class="text-blue-600 hover:text-blue-900 mr-2 md:mr-3">View</button>
-                  <button class="text-green-600 hover:text-green-900">Recalculate</button>
+                  <button class="text-blue-600 hover:text-blue-900">View</button>
                 </td>
               </tr>
             </tbody>
