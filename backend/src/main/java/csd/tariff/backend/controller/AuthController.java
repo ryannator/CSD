@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import csd.tariff.backend.dto.RegistrationDTOs.RegisterRequest;
+import csd.tariff.backend.dto.RegistrationDTOs.RegisterResponse;
+import csd.tariff.backend.dto.RegistrationDTOs.SigninRequest;
+import csd.tariff.backend.dto.RegistrationDTOs.SigninResponse;
+import csd.tariff.backend.dto.RegistrationDTOs.UserResponse;
 import csd.tariff.backend.model.User;
 import csd.tariff.backend.service.JwtService;
 import csd.tariff.backend.service.UserService;
@@ -28,14 +33,6 @@ public class AuthController {
     this.jwt = jwt;
     this.userService = userService;
   }
-
-  public record SigninRequest(String email, String password) {}
-  public record SigninResponse(String token) {}
-  
-  // Registration DTOs
-  public record RegisterRequest(String username, String email, String password) {}
-  public record UserResponse(Long id, String username, String email, User.Role role) {}
-  public record RegisterResponse(UserResponse user) {}
 
   @PostMapping("/signin")
   public ResponseEntity<?> signin(@RequestBody SigninRequest req) {

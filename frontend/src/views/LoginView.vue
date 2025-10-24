@@ -2,9 +2,6 @@
   <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div>
-        <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100">
-          <Shield class="h-8 w-8 text-blue-600" />
-        </div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Welcome to TARIFF System
         </h2>
@@ -109,21 +106,6 @@
           </div>
         </div>
 
-        <!-- Demo Credentials -->
-        <div class="rounded-md bg-blue-50 p-4">
-          <div class="flex">
-            <Info class="h-5 w-5 text-blue-400" />
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-blue-800">
-                Demo Credentials
-              </h3>
-              <div class="mt-2 text-sm text-blue-700">
-                <p><strong>Admin:</strong> admin@tariff.com / admin123</p>
-                <p><strong>User:</strong> user@tariff.com / user123</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <!-- Signup Link -->
         <div class="text-center">
@@ -163,12 +145,6 @@ const form = reactive({
   rememberMe: false
 })
 
-// Demo credentials for development
-const demoCredentials = {
-  admin: { email: 'admin@tariff.com', password: 'admin123', role: 'admin' },
-  user: { email: 'user@tariff.com', password: 'user123', role: 'user' }
-}
-
 const handleLogin = async () => {
   loading.value = true;
   error.value = '';
@@ -180,7 +156,6 @@ const handleLogin = async () => {
     const isAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ADMIN')
 
     const userData = {
-      id: 1,
       username: getEmailFromToken(token)?.split('@')[0] || 'user',
       email: getEmailFromToken(token) || form.email,
       role: isAdmin ? 'admin' : 'user',
@@ -207,37 +182,4 @@ const handleLogin = async () => {
   }
 };
 
-const handleSocialLogin = async (provider: 'google' | 'github') => {
-  loading.value = true
-  error.value = ''
-
-  try {
-    // In a real app, this would redirect to OAuth provider
-    console.log(`Social login with ${provider}`)
-
-    // Simulate OAuth flow
-    await new Promise(resolve => setTimeout(resolve, 2000))
-
-    // Demo: automatically log in as user
-    const userData = {
-      id: 1,
-      username: 'demo',
-      email: `demo@${provider}.com`,
-      role: 'user',
-      isAuthenticated: true,
-      loginTime: new Date().toISOString(),
-      provider: provider
-    }
-
-    localStorage.setItem('user', JSON.stringify(userData))
-    localStorage.setItem('authToken', `${provider}-oauth-token-` + Date.now())
-
-    router.push('/user-dashboard')
-
-  } catch (err: any) {
-    error.value = `${provider} login failed. Please try again.`
-  } finally {
-    loading.value = false
-  }
-}
 </script>

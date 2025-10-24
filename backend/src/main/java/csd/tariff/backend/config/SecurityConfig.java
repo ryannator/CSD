@@ -20,7 +20,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import csd.tariff.backend.security.JwtAuthFilter;
-import jakarta.servlet.DispatcherType;
 
 @Configuration
 @EnableMethodSecurity
@@ -34,23 +33,19 @@ public class SecurityConfig {
 
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-      .csrf(csrf -> csrf.disable())
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-      .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-      .authorizeHttpRequests(auth -> auth
-          .dispatcherTypeMatchers(DispatcherType.ERROR, DispatcherType.FORWARD).permitAll()
-          .requestMatchers("/error").permitAll()
-          .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-          .requestMatchers(
-              "/auth/**", "/swagger-ui.html", "/swagger-ui/**",
-              "/v3/api-docs/**", "/actuator/**", "/h2-console/**"
-          ).permitAll()
-          
-          .anyRequest().authenticated()
-      )
-      .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    http.csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(HttpMethod.OPTIONS, "/**")
+                    .permitAll()
+                    .requestMatchers(
+                        "/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
@@ -58,7 +53,9 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration cfg = new CorsConfiguration();
-    cfg.setAllowedOrigins(List.of("http://localhost:5173"));
+    cfg.setAllowedOrigins(
+        List.of(
+            "http://localhost:5173", "https://delightful-sand-0bf2f5b10.1.azurestaticapps.net"));
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     cfg.setAllowedHeaders(List.of("*"));
     cfg.setAllowCredentials(true);
@@ -70,21 +67,19 @@ public class SecurityConfig {
   }
 
   @Bean
-    DaoAuthenticationProvider authenticationProvider(
-        csd.tariff.backend.service.EmailUserDetailsService uds,
-        PasswordEncoder encoder
-    ) {
-      DaoAuthenticationProvider p = new DaoAuthenticationProvider();
-      p.setUserDetailsService(uds);   
-      p.setPasswordEncoder(encoder);  
-      return p;
-}
-
+  DaoAuthenticationProvider authenticationProvider(
+      csd.tariff.backend.service.EmailUserDetailsService uds, PasswordEncoder encoder) {
+    DaoAuthenticationProvider p = new DaoAuthenticationProvider();
+    p.setUserDetailsService(uds);
+    p.setPasswordEncoder(encoder);
+    return p;
+  }
 
   @Bean
   PasswordEncoder passwordEncoder() {
-      return new BCryptPasswordEncoder();
+    return new BCryptPasswordEncoder();
   }
+
   @Bean
   AuthenticationManager authenticationManager(DaoAuthenticationProvider provider) {
     return new ProviderManager(provider);
