@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Service
@@ -55,6 +55,9 @@ public class JwtService {
 
   public boolean isValid(String token, UserDetails user) {
     try {
+      if (token == null || user == null || token.trim().isEmpty()) {
+        return false;
+      }
       Claims c = parseClaims(token);
       boolean notExpired = c.getExpiration() == null || c.getExpiration().after(new Date());
       return notExpired && user.getUsername().equalsIgnoreCase(c.getSubject());

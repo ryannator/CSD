@@ -39,6 +39,7 @@ public class TariffCalculationResponse {
                            String destinationCountry, BigDecimal productValue, Integer quantity, String currency) {
         this();
         this.htsCode = htsCode;
+        this.productDescription = productDescription;
         this.originCountry = originCountry;
         this.destinationCountry = destinationCountry;
         this.productValue = productValue;
