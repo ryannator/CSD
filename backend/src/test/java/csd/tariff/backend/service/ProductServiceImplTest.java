@@ -1,4 +1,4 @@
-package csd.tariff.backend.unit;
+package csd.tariff.backend.service;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -28,7 +28,6 @@ import csd.tariff.backend.model.Product;
 import csd.tariff.backend.model.TradeAgreement;
 import csd.tariff.backend.repository.AgreementRateRepository;
 import csd.tariff.backend.repository.ProductRepository;
-import csd.tariff.backend.service.ProductServiceImpl;
 
 /**
  * Comprehensive unit tests for ProductServiceImpl
@@ -894,4 +893,5 @@ class ProductServiceImplTest {
             throw new RuntimeException("Failed to set Product ID", e);
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package csd.tariff.backend.unit;
+package csd.tariff.backend.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

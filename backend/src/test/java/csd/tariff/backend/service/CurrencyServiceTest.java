@@ -1,4 +1,4 @@
-package csd.tariff.backend.unit;
+package csd.tariff.backend.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package csd.tariff.backend.unit;
+package csd.tariff.backend.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,11 +40,6 @@ import csd.tariff.backend.model.TariffCalculation;
 import csd.tariff.backend.model.TradeAgreement;
 import csd.tariff.backend.repository.ProductRepository;
 import csd.tariff.backend.repository.TariffCalculationRepository;
-import csd.tariff.backend.service.CurrencyService;
-import csd.tariff.backend.service.MfnService;
-import csd.tariff.backend.service.ProductService;
-import csd.tariff.backend.service.TariffCalculationServiceImpl;
-import csd.tariff.backend.service.TradeAgreementService;
 
 /**
  * Comprehensive unit tests for TariffCalculationServiceImpl
